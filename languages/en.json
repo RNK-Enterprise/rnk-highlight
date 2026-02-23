@@ -1,0 +1,16 @@
+{
+  "RNKHIGHLIGHT.settings.title": "RNK Highlight Settings",
+  "RNKHIGHLIGHT.settings.glowEnabled": "Enable Glow",
+  "RNKHIGHLIGHT.settings.glowEnabledHint": "Enable hover glow effects on scene objects",
+  "RNKHIGHLIGHT.settings.glowColor": "Glow Color",
+  "RNKHIGHLIGHT.settings.intensity": "Intensity",
+  "RNKHIGHLIGHT.settings.size": "Size",
+  "RNKHIGHLIGHT.settings.animation": "Animation",
+  "RNKHIGHLIGHT.settings.objectTypes": "Object Types",
+  "RNKHIGHLIGHT.settings.tokens": "Tokens",
+  "RNKHIGHLIGHT.settings.tiles": "Tiles",
+  "RNKHIGHLIGHT.settings.drawings": "Drawings",
+  "RNKHIGHLIGHT.settings.walls": "Walls",
+  "RNKHIGHLIGHT.settings.lights": "Lights",
+  "RNKHIGHLIGHT.settings.save": "Save & Close"
+}

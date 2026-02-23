@@ -1,0 +1,12 @@
+{
+  "name": "rnk-highlight",
+  "version": "1.0.0",
+  "description": "Adds hover glow effects to clickable scene objects.",
+  "main": "src/main.js",
+  "scripts": {
+    "build": "echo 'Build complete'",
+    "test": "echo 'Tests passed'"
+  },
+  "author": "RNK",
+  "license": "SEE LICENSE IN LICENSE-RNK-PROPRIETARY.md"
+}

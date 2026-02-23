@@ -1,0 +1,110 @@
+/* GM Hub Settings Window */
+.rnk-highlight {
+  background: #1a1a1a !important;
+  color: #c0c0c0;
+}
+
+.rnk-highlight.window-app {
+  background: #1a1a1a !important;
+  border: 2px solid #8b4513 !important;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.8) !important;
+}
+
+.rnk-highlight .window-header {
+  background: #2b2b2b !important;
+  border-bottom: 2px dashed #8b4513 !important;
+  color: #39ff14 !important;
+  font-weight: bold;
+}
+
+.rnk-highlight .window-content {
+  background: #1a1a1a !important;
+  padding: 1.5rem;
+  overflow-y: auto;
+  max-height: calc(100vh - 120px);
+}
+
+.rnk-highlight form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.rnk-highlight .form-group {
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.rnk-highlight label {
+  color: #c0c0c0;
+  font-weight: 500;
+  flex: 0 0 120px;
+}
+
+.rnk-highlight input[type="color"] {
+  width: 60px;
+  height: 40px;
+  border: 1px solid #8b4513;
+  cursor: pointer;
+}
+
+.rnk-highlight input[type="range"] {
+  flex: 1;
+  min-width: 150px;
+}
+
+.rnk-highlight input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #39ff14;
+}
+
+.rnk-highlight fieldset {
+  border: 1px solid #8b4513;
+  padding: 1rem;
+  margin-top: 1rem;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.rnk-highlight legend {
+  color: #39ff14;
+  font-weight: bold;
+  padding: 0 0.5rem;
+}
+
+.rnk-highlight span {
+  color: #c0c0c0;
+  font-weight: 500;
+  min-width: 40px;
+  text-align: right;
+}
+
+.rnk-highlight .button-group {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid #8b4513;
+  padding-top: 1rem;
+}
+
+.rnk-highlight .save-settings {
+  background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+  border: 2px solid #39ff14;
+  color: #39ff14;
+  padding: 0.75rem 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.rnk-highlight .save-settings:hover {
+  background: #39ff14;
+  color: #1a1a1a;
+  box-shadow: 0 0 15px rgba(57, 255, 20, 0.6);
+}
