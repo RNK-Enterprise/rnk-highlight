@@ -1,13 +1,23 @@
 {
   "id": "rnk-highlight",
   "title": "RNK Highlight",
-  "description": "Adds hover glow effects to clickable scene objects.",
+  "description": "Adds hover glow effects to clickable scene objects. Free for everyone. Support development on Patreon: https://www.patreon.com/RagNaroks",
+  "authors": [
+    {
+      "name": "RNK Enterprise",
+      "url": "https://github.com/RNK-Enterprise"
+    },
+    {
+      "name": "Odinn",
+      "url": "https://www.patreon.com/RagNaroks",
+      "discord": "RagNaroks"
+    }
+  ],
   "version": "1.0.0",
   "compatibility": {
     "minimum": "11",
     "verified": "13"
   },
-  "author": "RNK",
   "esmodules": ["src/main.js"],
   "styles": ["styles/main.css"],
   "languages": [
@@ -18,15 +28,18 @@
     }
   ],
   "socket": false,
-  "protected": false,
+  "protected": true,
   "manifest": "https://github.com/RNK-Enterprise/rnk-highlight/releases/latest/download/module.json",
-  "download": "https://github.com/RNK-Enterprise/rnk-highlight/releases/latest/download/rnk-highlight.zip",
+  "download": "https://github.com/RNK-Enterprise/rnk-highlight/releases/latest/download/module.zip",
   "license": "LICENSE-RNK-PROPRIETARY.md",
   "readme": "README.md",
   "bugs": "https://github.com/RNK-Enterprise/rnk-highlight/issues",
   "changelog": "CHANGELOG.md",
   "url": "https://github.com/RNK-Enterprise/rnk-highlight",
   "flags": {
-    "allowBugReporter": true
+    "allowBugReporter": true,
+    "rnk-highlight": {
+      "copyright": "© 2026 RNK Enterprise. All rights reserved. Protected by intellectual property laws. Unauthorized modification, reverse engineering, or redistribution is prohibited."
+    }
   }
 }
