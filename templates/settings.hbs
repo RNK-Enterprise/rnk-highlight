@@ -10,16 +10,12 @@
   <div class="form-group">
     <label for="intensity">{{localize "RNKHIGHLIGHT.settings.intensity"}}</label>
     <input type="range" id="intensity" name="intensity" min="0" max="100" value="{{intensity}}">
-    <span>{{intensity}}%</span>
+    <span data-for="intensity">{{intensity}}%</span>
   </div>
   <div class="form-group">
     <label for="size">{{localize "RNKHIGHLIGHT.settings.size"}}</label>
     <input type="range" id="size" name="size" min="0" max="50" value="{{size}}">
-    <span>{{size}}px</span>
-  </div>
-  <div class="form-group">
-    <label for="animation">{{localize "RNKHIGHLIGHT.settings.animation"}}</label>
-    <input type="checkbox" id="animation" name="animation" {{checked animation}}>
+    <span data-for="size">{{size}}px</span>
   </div>
   <fieldset>
     <legend>{{localize "RNKHIGHLIGHT.settings.objectTypes"}}</legend>
@@ -44,4 +40,8 @@
       <input type="checkbox" id="lights" name="lights" {{checked lights}}>
     </div>
   </fieldset>
+
+  <div class="button-group">
+    <button type="button" class="save-settings">{{localize "RNKHIGHLIGHT.settings.save"}}</button>
+  </div>
 </form>

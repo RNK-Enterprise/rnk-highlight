@@ -13,12 +13,13 @@ export class HighlightSettingsApp extends HandlebarsApplicationMixin(Application
   };
 
   async _prepareContext(options) {
+    await super._prepareContext(options);
+
     return {
       glowEnabled: game.settings.get('rnk-highlight', 'glowEnabled'),
       glowColor: game.settings.get('rnk-highlight', 'glowColor'),
       intensity: game.settings.get('rnk-highlight', 'intensity'),
       size: game.settings.get('rnk-highlight', 'size'),
-      animation: game.settings.get('rnk-highlight', 'animation'),
       tokens: game.settings.get('rnk-highlight', 'tokens'),
       tiles: game.settings.get('rnk-highlight', 'tiles'),
       drawings: game.settings.get('rnk-highlight', 'drawings'),
@@ -27,8 +28,9 @@ export class HighlightSettingsApp extends HandlebarsApplicationMixin(Application
     };
   }
 
-  _onRender(context, options) {
-    super._onRender(context, options);
+  onRender(context, options) {
+    super.onRender(context, options);
+
     const html = this.element;
     html.querySelectorAll('input[type="range"]').forEach(input => {
       input.addEventListener('input', (ev) => {
@@ -41,16 +43,25 @@ export class HighlightSettingsApp extends HandlebarsApplicationMixin(Application
     html.querySelectorAll('input').forEach(input => {
       input.addEventListener('change', this._onChange.bind(this));
     });
+
     const saveBtn = html.querySelector('.save-settings');
     if (saveBtn) {
-      saveBtn.addEventListener('click', () => this.close());
+      saveBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        this.close();
+      });
     }
   }
 
-  _onChange(event) {
+  async _onChange(event) {
     const { name, value, checked } = event.target;
-    const settingValue = event.target.type === 'checkbox' ? checked : (event.target.type === 'range' ? parseInt(value) : value);
-    game.settings.set('rnk-highlight', name, settingValue);
+    const settingValue = event.target.type === 'checkbox'
+      ? checked
+      : event.target.type === 'range'
+        ? Number.parseInt(value, 10)
+        : value;
+
+    await game.settings.set('rnk-highlight', name, settingValue);
     window.RNKHighlight?.reinitializeHovers();
   }
 }

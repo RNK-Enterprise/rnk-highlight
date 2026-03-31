@@ -1,7 +1,7 @@
 {
   "id": "rnk-highlight",
-  "title": "RNK Highlight",
-  "description": "Adds hover glow effects to clickable scene objects. Free for everyone. Support development on Patreon: https://www.patreon.com/RagNaroks",
+  "title": "RNK™ Highlight",
+  "description": "Adds hover glow effects to clickable scene objects in Foundry Virtual Tabletop. Free module from RNK Enterprise.",
   "authors": [
     {
       "name": "RNK Enterprise",
@@ -13,10 +13,10 @@
       "discord": "RagNaroks"
     }
   ],
-  "version": "1.0.0",
+  "version": "1.0.1",
   "compatibility": {
-    "minimum": "11",
-    "verified": "13"
+    "minimum": 11,
+    "verified": 13
   },
   "esmodules": ["src/main.js"],
   "styles": ["styles/main.css"],
@@ -29,8 +29,9 @@
   ],
   "socket": false,
   "url": "https://github.com/RNK-Enterprise/rnk-highlight",
-  "manifest": "https://raw.githubusercontent.com/RNK-Enterprise/rnk-highlight/main/module.json",
-  "download": "https://raw.githubusercontent.com/RNK-Enterprise/rnk-highlight/main/module.zip",
+  "manifest": "https://github.com/RNK-Enterprise/rnk-highlight/releases/latest/download/module.json",
+  "download": "https://github.com/RNK-Enterprise/rnk-highlight/releases/latest/download/module.zip",
+  "protected": false,
   "flags": {
     "allowBugReporter": true,
     "rnk-highlight": {

@@ -1,12 +1,12 @@
 {
   "name": "rnk-highlight",
-  "version": "1.0.0",
-  "description": "Adds hover glow effects to clickable scene objects.",
+  "version": "1.0.1",
+  "description": "Adds hover glow effects to clickable scene objects in Foundry Virtual Tabletop.",
   "main": "src/main.js",
   "scripts": {
     "build": "echo 'Build complete'",
-    "test": "echo 'Tests passed'"
+    "test": "node scripts/validate.mjs"
   },
-  "author": "RNK",
+  "author": "RNK Enterprise",
   "license": "SEE LICENSE IN LICENSE-RNK-PROPRIETARY.md"
 }

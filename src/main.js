@@ -1,94 +1,36 @@
 import { HighlightSettingsApp } from './settings.js';
 
+const MODULE_ID = 'rnk-highlight';
+const CONTROL_ID = 'rnk-highlight';
+const CONTROL_TOOL_ID = 'rnk-highlight-open';
+const SETTINGS = {
+  glowEnabled: { type: Boolean, default: true, hasHint: true },
+  glowColor: { type: String, default: '#ffffff' },
+  intensity: { type: Number, default: 50 },
+  size: { type: Number, default: 10 },
+  tokens: { type: Boolean, default: true },
+  tiles: { type: Boolean, default: true },
+  drawings: { type: Boolean, default: true },
+  walls: { type: Boolean, default: true },
+  lights: { type: Boolean, default: true }
+};
+const HOVER_HOOKS = [
+  ['hoverToken', 'tokens'],
+  ['hoverTile', 'tiles'],
+  ['hoverDrawing', 'drawings'],
+  ['hoverWall', 'walls'],
+  ['hoverAmbientLight', 'lights']
+];
+
 Hooks.once('init', () => {
-  game.settings.register('rnk-highlight', 'glowEnabled', {
-    name: 'RNKHIGHLIGHT.settings.glowEnabled',
-    hint: 'RNKHIGHLIGHT.settings.glowEnabledHint',
-    scope: 'world',
-    config: false,
-    type: Boolean,
-    default: true
-  });
-
-  game.settings.register('rnk-highlight', 'glowColor', {
-    name: 'RNKHIGHLIGHT.settings.glowColor',
-    scope: 'world',
-    config: false,
-    type: String,
-    default: '#ffffff'
-  });
-
-  game.settings.register('rnk-highlight', 'intensity', {
-    name: 'RNKHIGHLIGHT.settings.intensity',
-    scope: 'world',
-    config: false,
-    type: Number,
-    default: 50
-  });
-
-  game.settings.register('rnk-highlight', 'size', {
-    name: 'RNKHIGHLIGHT.settings.size',
-    scope: 'world',
-    config: false,
-    type: Number,
-    default: 10
-  });
-
-  game.settings.register('rnk-highlight', 'animation', {
-    name: 'RNKHIGHLIGHT.settings.animation',
-    scope: 'world',
-    config: false,
-    type: Boolean,
-    default: true
-  });
-
-  game.settings.register('rnk-highlight', 'tokens', {
-    name: 'RNKHIGHLIGHT.settings.tokens',
-    scope: 'world',
-    config: false,
-    type: Boolean,
-    default: true
-  });
-
-  game.settings.register('rnk-highlight', 'tiles', {
-    name: 'RNKHIGHLIGHT.settings.tiles',
-    scope: 'world',
-    config: false,
-    type: Boolean,
-    default: true
-  });
-
-  game.settings.register('rnk-highlight', 'drawings', {
-    name: 'RNKHIGHLIGHT.settings.drawings',
-    scope: 'world',
-    config: false,
-    type: Boolean,
-    default: true
-  });
-
-  game.settings.register('rnk-highlight', 'walls', {
-    name: 'RNKHIGHLIGHT.settings.walls',
-    scope: 'world',
-    config: false,
-    type: Boolean,
-    default: true
-  });
-
-  game.settings.register('rnk-highlight', 'lights', {
-    name: 'RNKHIGHLIGHT.settings.lights',
-    scope: 'world',
-    config: false,
-    type: Boolean,
-    default: true
-  });
+  registerSettings();
 });
 
 Hooks.on('getSceneControlButtons', (controls) => {
   if (!game.user.isGM) return;
-  
-  const toolId = 'rnk-highlight-open';
+
   const tool = {
-    name: toolId,
+    name: CONTROL_TOOL_ID,
     title: 'RNKHIGHLIGHT.settings.title',
     icon: 'fas fa-lightbulb',
     button: true,
@@ -98,21 +40,35 @@ Hooks.on('getSceneControlButtons', (controls) => {
   };
 
   const control = {
-    name: 'rnk-highlight',
+    name: CONTROL_ID,
     title: 'RNKHIGHLIGHT.settings.title',
     icon: 'fas fa-highlighter',
     order: 100,
     layer: 'lighting',
     visible: true,
-    tools: Array.isArray(controls) ? [tool] : { [toolId]: tool }
+    tools: Array.isArray(controls) ? [tool] : { [CONTROL_TOOL_ID]: tool }
   };
 
   if (Array.isArray(controls)) {
     controls.push(control);
   } else if (controls && typeof controls === 'object') {
-    controls['rnk-highlight'] = control;
+    controls[CONTROL_ID] = control;
   }
 });
+
+function registerSettings() {
+  for (const [key, config] of Object.entries(SETTINGS)) {
+    game.settings.register(MODULE_ID, key, {
+      name: `RNKHIGHLIGHT.settings.${key}`,
+      hint: config.hasHint ? `RNKHIGHLIGHT.settings.${key}Hint` : undefined,
+      scope: 'world',
+      config: false,
+      type: config.type,
+      default: config.default,
+      onChange: () => reinitializeHoverEffects()
+    });
+  }
+}
 
 /**
  * Get the renderable PIXI display object for any PlaceableObject type.
@@ -150,6 +106,40 @@ function parseColor(hex) {
   }
 }
 
+function getSetting(key) {
+  return game.settings.get(MODULE_ID, key);
+}
+
+function getManagedPlaceables() {
+  const layerMap = [
+    ['tokens', canvas.tokens?.placeables],
+    ['tiles', canvas.tiles?.placeables],
+    ['drawings', canvas.drawings?.placeables],
+    ['walls', canvas.walls?.placeables],
+    ['lights', canvas.lighting?.placeables]
+  ];
+
+  return layerMap.flatMap(([key, placeables]) => {
+    if (!Array.isArray(placeables)) return [];
+    return placeables.map((placeable) => ({ key, placeable }));
+  });
+}
+
+function isHoverEnabled(settingKey) {
+  return getSetting('glowEnabled') && getSetting(settingKey);
+}
+
+function reinitializeHoverEffects() {
+  if (!canvas?.ready) return;
+
+  for (const { key, placeable } of getManagedPlaceables()) {
+    removeGlow(placeable);
+    if (placeable.hover && isHoverEnabled(key)) {
+      applyGlow(placeable);
+    }
+  }
+}
+
 /**
  * Create a ColorMatrixFilter fallback when GlowFilter is unavailable.
  */
@@ -167,7 +157,7 @@ function createFallbackFilter(color, strength = 1) {
 }
 
 function applyGlow(object) {
-  if (!game.settings.get('rnk-highlight', 'glowEnabled')) return;
+  if (!getSetting('glowEnabled')) return;
 
   const sprite = getSprite(object);
   if (!sprite) return;
@@ -175,9 +165,9 @@ function applyGlow(object) {
   removeGlow(object);
 
   try {
-    const color = parseColor(game.settings.get('rnk-highlight', 'glowColor'));
-    const intensity = game.settings.get('rnk-highlight', 'intensity') / 100;
-    const size = game.settings.get('rnk-highlight', 'size');
+    const color = parseColor(getSetting('glowColor'));
+    const intensity = getSetting('intensity') / 100;
+    const size = getSetting('size');
 
     const GlowFilter = getFilterClass('GlowFilter');
     let filter;
@@ -201,7 +191,7 @@ function applyGlow(object) {
 
     object._rnkHighlightSprite = sprite;
   } catch (err) {
-    console.error("RNK Highlight | Failed to apply glow filter", err);
+    console.error('RNK™ Highlight | Failed to apply glow filter', err);
   }
 }
 
@@ -214,49 +204,30 @@ function removeGlow(object) {
     sprite.filters = filtered.length > 0 ? filtered : null;
     delete object._rnkHighlightSprite;
   } catch (err) {
-    console.error("RNK Highlight | Failed to remove glow filter", err);
+    console.error('RNK™ Highlight | Failed to remove glow filter', err);
   }
 }
 
-// Global Hook Listeners
-Hooks.on('hoverToken', (token, hovered) => {
-  if (game.settings.get('rnk-highlight', 'tokens')) {
-    if (hovered) applyGlow(token);
-    else removeGlow(token);
-  }
+for (const [hookName, settingKey] of HOVER_HOOKS) {
+  Hooks.on(hookName, (placeable, hovered) => {
+    if (!getSetting(settingKey)) {
+      removeGlow(placeable);
+      return;
+    }
+
+    if (hovered) {
+      applyGlow(placeable);
+      return;
+    }
+
+    removeGlow(placeable);
+  });
+}
+
+Hooks.on('canvasReady', () => {
+  reinitializeHoverEffects();
 });
 
-Hooks.on('hoverTile', (tile, hovered) => {
-  if (game.settings.get('rnk-highlight', 'tiles')) {
-    if (hovered) applyGlow(tile);
-    else removeGlow(tile);
-  }
-});
-
-Hooks.on('hoverDrawing', (drawing, hovered) => {
-  if (game.settings.get('rnk-highlight', 'drawings')) {
-    if (hovered) applyGlow(drawing);
-    else removeGlow(drawing);
-  }
-});
-
-Hooks.on('hoverWall', (wall, hovered) => {
-  if (game.settings.get('rnk-highlight', 'walls')) {
-    if (hovered) applyGlow(wall);
-    else removeGlow(wall);
-  }
-});
-
-Hooks.on('hoverAmbientLight', (light, hovered) => {
-  if (game.settings.get('rnk-highlight', 'lights')) {
-    if (hovered) applyGlow(light);
-    else removeGlow(light);
-  }
-});
-
-// For settings change re-initialization (not needed with Hooks, but keeping API)
 window.RNKHighlight = {
-  reinitializeHovers: () => {
-    // Hooks handle this automatically
-  }
+  reinitializeHovers: reinitializeHoverEffects
 };
