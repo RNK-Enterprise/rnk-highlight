@@ -2,6 +2,8 @@
 
 RNK™ Highlight adds hover glow effects to clickable scene objects in Foundry Virtual Tabletop.
 
+**Compatibility**: Foundry VTT v13-14 (minimum: 13, verified: 14)
+
 ## Installation
 
 Use this manifest URL in Foundry VTT:

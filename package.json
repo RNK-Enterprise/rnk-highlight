@@ -1,6 +1,6 @@
 {
   "name": "rnk-highlight",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Adds hover glow effects to clickable scene objects in Foundry Virtual Tabletop.",
   "main": "src/main.js",
   "scripts": {

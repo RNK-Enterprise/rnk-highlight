@@ -13,10 +13,10 @@
       "discord": "RagNaroks"
     }
   ],
-  "version": "1.0.1",
+  "version": "1.0.2",
   "compatibility": {
-    "minimum": 11,
-    "verified": 13
+    "minimum": 13,
+    "verified": 14
   },
   "esmodules": ["src/main.js"],
   "styles": ["styles/main.css"],

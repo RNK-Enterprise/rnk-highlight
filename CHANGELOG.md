@@ -2,7 +2,13 @@
 
 ## [Unreleased]
 
-- No unreleased changes yet.
+## [1.0.2] - 2026-04-15
+
+### Release Alignment
+
+- Updated compatibility to Foundry VTT v13-14.
+- Added stable v14 compatibility notes to documentation.
+- Removed stale module ZIP artifacts ahead of release.
 
 ## [1.0.1] - 2026-03-31
 
